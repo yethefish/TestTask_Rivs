@@ -66,6 +66,9 @@ namespace Server
             _writer?.Dispose();
             _client?.Close();
 
+            if (!_isRunning)
+                return;
+
             Console.WriteLine("Ожидание нового клиента...");
             try
             {
@@ -110,7 +113,8 @@ namespace Server
                 }
                 catch (IOException)
                 {
-                    Console.WriteLine("Ошибка чтения от клиента.");
+                    if (_isRunning)
+                        Console.WriteLine("Ошибка чтения от клиента.");
                     break;
                 }
             }
